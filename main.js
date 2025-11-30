@@ -5,8 +5,8 @@ const devMode = false;
 window.onload = function() {
 	let date = new Date();
 	date.setUTCHours(date.getUTCHours() - 5); // Time zones :(
-	let day = date.getUTCMonth() !== 11 ? 25 : date.getUTCDate();
-	document.getElementById("dayNum").value = Math.min(day, 25);
+	let day = date.getUTCMonth() !== 11 ? 12 : date.getUTCDate();
+	document.getElementById("dayNum").value = Math.min(day, 12);
 	document.getElementById("startDay").addEventListener("click", handleFiles, false);
 }
 
