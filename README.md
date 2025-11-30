@@ -1,3 +1,3 @@
-Advent of Code
+Advent of Code 2025
 
-A template for AoC repos. If you don't change this when you clone the repo, :(
+Repository for Advent of Code 2025 solutions.
