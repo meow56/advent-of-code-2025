@@ -13,12 +13,29 @@ function day01(input) {
 	}
 
 	let pos = 50;
+	let otherPos = 50;
 	let numZeros = 0;
+	let secondZeros = 0;
 	for(let move of moves) {
 		pos = mod(pos + move, 100);
 		if(pos === 0) {
 			numZeros++;
 		}
+
+		let newPos = otherPos + move;
+		if(otherPos === 0 && move < 0) secondZeros--;
+		while(newPos < 0) {
+			newPos += 100;
+			secondZeros++;
+		}
+		if(newPos === 0) secondZeros++;
+		while(newPos > 99) {
+			newPos -= 100;
+			secondZeros++;
+		}
+		otherPos = newPos;
 	}
+	if(otherPos === 0) secondZeros++;
 	displayCaption(`The number of zeros is ${numZeros}.`);
+	displayCaption(`The number of 0x434C49434B zeros is ${secondZeros}.`);
 }
