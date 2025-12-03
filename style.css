@@ -22,6 +22,11 @@
 	color: lightgreen;
 }
 
+.invert {
+	background-color: black;
+	color: white;
+}
+
 .hidden {
 	display: none;
 }
