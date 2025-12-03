@@ -28,5 +28,21 @@ function day03(input) {
 		}
 	}
 
+	function maxNum(line, numDigits = 12, number = "") {
+		if(numDigits === 0) return number;
+		for(let i = 9; i >= 0; i--) {
+			let firstIndex = line.indexOf(i);
+			if(firstIndex !== -1 && firstIndex <= line.length - numDigits) {
+				return maxNum(line.slice(firstIndex + 1), numDigits - 1, number + i);
+			}
+		}
+	}
+
+	let totalOverJoltage = 0;
+	for(let line of lines) {
+		totalOverJoltage += +(maxNum(line));
+	}
+
 	displayCaption(`The total joltage you can get is ${totalJoltage}.`);
+	displayCaption(`The total super safe joltage you can get is ${totalOverJoltage}.`);
 }
