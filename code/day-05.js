@@ -22,4 +22,44 @@ function day05(input) {
 		}
 	}
 	displayCaption(`The number of fresh ingredients is ${freshCount}.`);
+
+	let stillMerging = true;
+	while(stillMerging) {
+		stillMerging = false;
+		let newRanges = [];
+		let mergedRanges = [];
+		for(let range of ranges) {
+			if(mergedRanges.includes(range)) continue;
+			let merged = false;
+			for(let range2 of ranges) {
+				if(mergedRanges.includes(range2)) continue;
+				if(range === range2) continue;
+				if(range[0] >= range2[0] && range[0] <= range2[1]) {
+					merged = true;
+					stillMerging = true;
+					mergedRanges.push(range, range2);
+					newRanges.push([range2[0], Math.max(range[1], range2[1])]);
+					break;
+				}
+				if(range[1] >= range2[0] && range[1] <= range2[1]) {
+					merged = true;
+					stillMerging = true;
+					mergedRanges.push(range, range2);
+					newRanges.push([range[0], range2[1]]);
+					break;
+				}
+			}
+			if(!merged) {
+				newRanges.push(range);
+			}
+		}
+		ranges = newRanges;
+	}
+
+	let unspoiledIDs = 0;
+	for(let range of ranges) {
+		unspoiledIDs += range[1] - range[0] + 1;
+	}
+
+	displayCaption(`The total number of unspoiled IDs is ${unspoiledIDs}.`);
 }
