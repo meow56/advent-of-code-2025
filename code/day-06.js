@@ -24,7 +24,9 @@ function day06(input) {
 
 	let transposedGrid = transpose(numGrid);
 	let transposedTextGrid = transpose(wrongGrid).toReversed();
-	console.log(transposedTextGrid);
+
+	assignPane('p1', 'English worldview');
+	assignPane('p2', 'Cephalopod worldview');
 
 	let sum = 0;
 	for(let row of transposedGrid) {
@@ -38,6 +40,7 @@ function day06(input) {
 			}
 		}
 		sum += answer;
+		displayToPane('p1', row.join(` ${operation} `) + ` = ${answer}`);
 	}
 
 	let trueSum = 0;
@@ -47,11 +50,14 @@ function day06(input) {
 		let operation = row.pop();
 		stack.push(+(row.join("")));
 		if(operation !== " ") {
-			trueSum += stack.reduce((acc, val) => (operation === "*" ? acc * val : acc + val));
+			let answer = stack.reduce((acc, val) => (operation === "*" ? acc * val : acc + val));
+			trueSum += answer;
+			displayToPane('p2', stack.join(` ${operation} `) + ` = ${answer}`);
 			stack = [];
 		}
 	}
 
 	displayCaption(`The grand total is ${sum}.`);
 	displayCaption(`The actual grand total is ${trueSum}.`);
+	displayCaption(`The equations and their results are shown.`);
 }
