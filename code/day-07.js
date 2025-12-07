@@ -19,9 +19,10 @@ function day07(input) {
 		if(startPos) break;
 	}
 
+	displayText(grid[0].map(e => e === "." ? " " : e).join(""));
 	let splits = 0;
 	let beamsX = new Map([[startPos[0], 1]]);
-	for(let y = 0; y < grid.length; y++) {
+	for(let y = 1; y < grid.length; y++) {
 		let newBeamsX = new Map();
 		for(let [beam, multiplicity] of beamsX.entries()) {
 			if(grid[y][beam] === "^") {
@@ -33,6 +34,18 @@ function day07(input) {
 			}
 		}
 		beamsX = newBeamsX;
+
+		let row = "";
+		for(let x = 0; x < grid[y].length; x++) {
+			if(beamsX.has(x)) {
+				row += "|";
+			} else if(grid[y][x] === ".") {
+				row += " ";
+			} else {
+				row += grid[y][x];
+			}
+		}
+		displayText(row);
 	}
 
 	let timelines = 0;
@@ -42,4 +55,6 @@ function day07(input) {
 
 	displayCaption(`The number of times the beam splits is ${splits}.`);
 	displayCaption(`The number of timelines is ${timelines}.`);
+	displayCaption(`The manifold is shown.`);
+	displayCaption(`The tachyon beams are also shown.`);
 }
