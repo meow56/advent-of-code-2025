@@ -49,7 +49,11 @@ function day08(input) {
 	});
 
 	let connectedRegions = [];
-	for(let i = 0; i < 1000; i++) {
+	let product;
+	let lastConnection;
+	let iters = 0;
+	while(connectedRegions.length !== 1 || connectedRegions[0]?.length !== junctions.length) {
+		iters++;
 		let shortestPair = allJunctionDistances.shift();
 		let firstJunction = shortestPair[1][0];
 		let secondJunction = shortestPair[1][1];
@@ -58,9 +62,7 @@ function day08(input) {
 		if(firstInRegion && secondInRegion) {
 			let firstRegion = connectedRegions.findIndex(e => e.includes(firstJunction));
 			let secondRegion = connectedRegions.findIndex(e => e.includes(secondJunction));
-			if(firstRegion === secondRegion) {
-				continue;
-			} else {
+			if(firstRegion !== secondRegion) {
 				connectedRegions[firstRegion] = connectedRegions[firstRegion].concat(connectedRegions[secondRegion]);
 				connectedRegions.splice(secondRegion, 1);
 			}
@@ -73,12 +75,17 @@ function day08(input) {
 		} else {
 			connectedRegions.push([firstJunction, secondJunction]);
 		}
+		lastConnection = [firstJunction, secondJunction];
+		if(iters === 1000) {
+			connectedRegions.sort((a, b) => {
+				return b.length - a.length;
+			});
+			product = connectedRegions[0].length * connectedRegions[1].length * connectedRegions[2].length;
+		}
 	}
 
-	connectedRegions.sort((a, b) => {
-		return b.length - a.length;
-	});
+	let xCoords = +(lastConnection[0].split(",")[0]) * +(lastConnection[1].split(",")[0]);
 
-	let product = connectedRegions[0].length * connectedRegions[1].length * connectedRegions[2].length;
 	displayCaption(`The product of region sizes is ${product}.`);
+	displayCaption(`The product of x coordinates in the last connection is ${xCoords}.`);
 }
