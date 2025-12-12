@@ -23,18 +23,25 @@ function day11(input) {
 
 	let you = devices.find(d => d.name === "you");
 	const numPaths = new Map();
-	function pathsToOut(currPos) {
-		if(currPos.name === "out") return 1;
-		if(numPaths.has(currPos.name)) return numPaths.get(currPos.name);
+	function pathsToOut(currPos, p2 = false, hitDAC = false, hitFFT = false) {
+		if(currPos.name === "out") return +(!p2 || (hitDAC && hitFFT));
+		if(currPos.name === "dac") hitDAC = true;
+		if(currPos.name === "fft") hitFFT = true;
+		let mapKey = `${currPos.name};${p2};${hitDAC};${hitFFT}`;
+		if(numPaths.has(mapKey)) return numPaths.get(mapKey);
 		let sum = 0;
 		for(let neighbor of currPos.outs) {
-			sum += pathsToOut(neighbor);
+			sum += pathsToOut(neighbor, p2, hitDAC, hitFFT);
 		}
 
-		numPaths.set(currPos.name, sum);
+		numPaths.set(mapKey, sum);
 		return sum;
 	}
 
 	let result = pathsToOut(you);
 	displayCaption(`The number of paths to out is ${result}.`);
+
+	let svr = devices.find(d => d.name === "svr");
+	let serverResult = pathsToOut(svr, true);
+	displayCaption(`The number of sus paths is ${serverResult}.`);
 }
